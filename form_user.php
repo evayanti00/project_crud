@@ -7,15 +7,15 @@
 </head>
 <body>
     <h2>Input Users</h2>
-    <form action="proses_user.php" method="POST">
+    <form action="prosses_user.php" method="POST">
         <label for="nama">Nama : </label>
         <input type="text" Nama="nama"><br>
-         <label for="email">Email : </label>
+        <label for="email">Email : </label>
         <input type="email" id="email" name="email" required><br><br>
 
         <label for="password">Password : </label>
         <input type="password" id="password" name="password" required><br><br>
-
+        
         <input type="submit" value="Kirim">
     </form>
     <hr>
@@ -39,6 +39,8 @@
                     <td>{$row['email']}</td>
                     <td>
                         <a href='editUser.php?id={$row['id']}'>Edit</a>
+                        <a href='deltUser.php?id={$row['id']}' 
+                       onclick=\"return confirm('Yakin hapus data ini?')\">Delete</a>
                     </td>
                 </tr>
             

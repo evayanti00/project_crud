@@ -4,39 +4,63 @@ require_once 'config/database.php';
 class Users extends Database {
     private $table = 'users';
 
-    //method insert
+    // CREATE
     public function create($nama, $email, $password) {
+        $qry = "INSERT INTO $this->table (nama, email, password) VALUES (?, ?, ?)";
         $stmt = $this->conn->prepare($qry);
+
+        if ($stmt === false) {
+            die("Error prepare: " . $this->conn->error);
+        }
+
         $stmt->bind_param("sss", $nama, $email, $password);
         return $stmt->execute();
     }
-    //method selct all
-    public function read(){
+
+    // READ ALL
+    public function read() {
         $qry = "SELECT * FROM $this->table";
         return $this->conn->query($qry);
     }
-    //method selectbyid
+
+    // READ BY ID
     public function readByID($id) {
-        $qry = "SELECT * FORM $this->table WHERE id = ?";
+        $qry = "SELECT * FROM $this->table WHERE id = ?";
         $stmt = $this->conn->prepare($qry);
-        $stmt->blind_param("i", $id);
+
+        if ($stmt === false) {
+            die("Error prepare: " . $this->conn->error);
+        }
+
+        $stmt->bind_param("i", $id);
         $stmt->execute();
-        return $stmt->get_result()->fetch_assoch();
+        return $stmt->get_result()->fetch_assoc();
     }
-    //metod update
+
+    // UPDATE
     public function update($id, $nama, $email) {
-        $qry = "UPDATE $this->table SET nama = ?, email= ? WHERE id = ?";
+        $qry = "UPDATE $this->table SET nama = ?, email = ? WHERE id = ?";
         $stmt = $this->conn->prepare($qry);
+
+        if ($stmt === false) {
+            die("Error prepare: " . $this->conn->error);
+        }
+
         $stmt->bind_param("ssi", $nama, $email, $id);
-        return $stmt->execute(); 
+        return $stmt->execute();
     }
-    //metod delete
+
+    // DELETE
     public function delete($id) {
-        $qry = "DELETE FROM $this->table  WHERE id = ?";
+        $qry = "DELETE FROM $this->table WHERE id = ?";
         $stmt = $this->conn->prepare($qry);
+
+        if ($stmt === false) {
+            die("Error prepare: " . $this->conn->error);
+        }
+
         $stmt->bind_param("i", $id);
         return $stmt->execute();
     }
 }
-
 ?>

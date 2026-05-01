@@ -2,41 +2,47 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=, initial-scale=1.0">
-    <title>Document</title>
+    <title>Edit User</title>
 </head>
 <body>
-     <h2>edit user</h2>
+    <h2>Edit User</h2>
     <?php
-        require_once ' classes/user.php';
+        require_once 'classes/user.php';
         $users = new Users();
-        $data = $users->readByID($_GET['id']);
-    
+
+        // cek apakah ada parameter id
+        $id = $_GET['id'] ?? null;
+        if ($id === null) {
+            die("ID tidak ditemukan di URL");
+        }
+
+        $data = $users->readByID($id);
     ?>
-    <form action="proses_user.php" method="POST">
-        <label for="nama">Nama : </label>
+    <form action="prosses_user_update.php" method="POST">
         <input type="hidden" name="id" value="<?= $data['id'] ?>">
-        <input type="text" name="nama" value="<?= $data['nama'] ?>">><br>
-         <label for="email">Email : </label>
+
+        <label for="nama">Nama : </label>
+        <input type="text" id="nama" name="nama" value="<?= $data['nama'] ?>"><br>
+
+        <label for="email">Email : </label>
         <input type="email" id="email" name="email" value="<?= $data['email'] ?>"><br><br>
 
         <label for="password">Password : </label>
-        <input type="password" id="password" name="password" required><br><br>
+        <input type="password" id="password" name="password"><br><br>
 
         <input type="submit" value="Update">
     </form>
+
     <hr>
-    <h2>Data user</h2>
-    <table>
+    <h2>Data User</h2>
+    <table border="1" cellpadding="5">
         <tr>
             <th>ID</th>
-            <th>nama</th>
+            <th>Nama</th>
             <th>Email</th>
             <th>Action</th>
         </tr>
         <?php
-        require_once 'classes/user.php';
-        $users = new Users();
         $data = $users->read();
         while($row = $data->fetch_assoc()){
             echo "
@@ -48,7 +54,6 @@
                         <a href='editUser.php?id={$row['id']}'>Edit</a>
                     </td>
                 </tr>
-            
             ";
         }
         ?>

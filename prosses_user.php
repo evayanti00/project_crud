@@ -1,19 +1,20 @@
 <?php
- required_once 'classes/users.php';
- $users = new Users();
+require_once 'classes/user.php';
+$users = new Users();
 
- if($_SERVER['REQUEST_METHOOD'] == 'POST') {
-    $nama = $_POST['nama'];
-    $email = $_POST['email'];
-    $password = password_hash($_POST['password'], PASSORD_DEFAULT);
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Ambil data dari form sesuai atribut name
+    $nama     = $_POST['nama'];
+    $email    = $_POST['email'];
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
+    // Simpan ke database
     if ($users->create($nama, $email, $password)) {
-        echo 'simpan data berhasil';
-    }else {
-        echo 'gagal simpan data';
+        echo 'Simpan data berhasil';
+    } else {
+        echo 'Gagal simpan data';
     }
- }else{
-    echo 'tidak valid';
- }
-
+} else {
+    echo 'Tidak valid';
+}
 ?>

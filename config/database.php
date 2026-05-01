@@ -9,7 +9,7 @@ class Database {
 
     protected function connect() {
         $host = "localhost";
-        $user = "root"
+        $user = "root";
         $pass = "";
         $db = "web_db";
 
